@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('data', filename='styles.css') }}">
+  </head>
+  <body>
+    
+    <header class="page-header">
+      <h1>Welcome to PaperTrail API, {{ name }}!</h1>
+      <p>This is your dashboard.</p>
+      <p>Here are some quick actions to manage your receipts:</p>
+    </header>
+
+    <div class="widgets-container">
+      <div class="widget" id="TotalReceipts" onclick="openModal('ReceiptsModal')">
+        <h2>Total Receipts</h2>
+      </div>
+      <div id="ReceiptsModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-Receipts modal-box">
+          <span class="close" onclick="closeModal('ReceiptsModal')">&times;</span>
+          <h2>See Receipts</h2>
+        </div>
+      </div>
+
+      <div class="widget" id="Reports" onclick="openModal('ReportModal')">
+        <h2>Manage Reports</h2>
+      </div>
+      <div id="ReportModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-Report modal-box">
+          <span class="close" onclick="closeModal('ReportModal')">&times;</span>
+          <h2>Add Report</h2>
+          <form id="add-report-form">
+            <label>Report Name</label>
+            <input name="reportname" placeholder="Report Name" required>
+            <label>Description</label>
+            <input name="description" placeholder="Report Description">
+            <div class="actions">
+              <button type="button" onclick="closeModal('ReportModal')">Cancel</button>
+              <button type="submit">Save Report</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="widget" id="Catagories" onclick="openModal('CatagoryModal')">
+        <h2>Manage Catogories</h2>
+      </div>
+      <div id="CatagoryModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-Catagory modal-box">
+          <span class="close" onclick="closeModal('CatagoryModal')">&times;</span>
+          <h2>Add Catogory</h2>
+          <form id="add-catagory-form">
+            <label>Catogory Name</label>
+            <input name="catagoryname" placeholder="Catogory Name" required>
+            <label>Description</label>
+            <input name="description" placeholder="Catogory Description">
+            <div class="actions">
+              <button type="button" onclick="closeModal('CatagoryModal')">Cancel</button>
+              <button type="submit">Save Catogory</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="widget" id="Upload" onclick="openModal('UploadModal')">
+        <h2>Upload receipt</h2>
+      </div>
+      <div id="UploadModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-Upload modal-box">
+          <span class="close" onclick="closeModal('UploadModal')">&times;</span>
+          <h2>Add receipt</h2>
+          <form id="add-recipt-form">
+            <label>File</label>
+            <input name="receiptname" placeholder="File Name" required>
+            <label>Description</label>
+            <input name="description" placeholder="File Description">
+            <label for="file">Upload File</label>
+            <input type="file" id="file" name="file" accept="image/*,.pdf" required>
+            <div class="field">
+              <label>Catogory</label>
+              <select name="brand">
+                <option value="">N/A</option>
+                <option>Tax</option>
+                <option>Investments</option>
+                <option>Utilities</option>
+                <option>Groceries</option>
+                <option>Dining</option>
+                <option>Shopping</option>
+                <option>Travel</option>
+                <option>Health</option>
+                <option>Entertainment</option>
+                <option>Education</option>
+                <option>Miscellaneous</option>
+              </select>
+            </div>
+            <div class="actions">
+              <button type="button" onclick="closeModal('UploadModal')">Cancel</button>
+              <button type="submit">Save receipt</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="widgets2-container" id="QuickActions">
+      <h2>Quick Actions</h2>
+      <ul>
+        <li><a href="#" >Generate Report</a></li>
+        <li><a href="#" >Manage Categories</a></li>
+        <li><a href="#" >See All Files</a></li>
+      </ul>
+    </div>
+
+    <div class="widgets3-container" id="CategorisedReceipts">
+      <div class="Category" id="Catagories">
+        <h2>Manage Catogories</h2>
+      </div>
+    </div>
+
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <div id="modal-root"></div>
+
+    <script>
+      function openModal(modalID) {
+        const modal = document.getElementById(modalID);
+        if (!modal) return;
+        modal.classList.add('open');
+        document.body.classList.add('no-scroll');
+      }
+      function closeModal(modalID) {
+        const modal = document.getElementById(modalID);
+        if (!modal) return;
+        modal.classList.remove('open');
+        document.body.classList.remove('no-scroll');
+      }
+      window.addEventListener('click', function (event) {
+        ['ReceiptsModal','ReportModal','CatagoryModal','UploadModal'].forEach(function (id) {
+          const modal = document.getElementById(id);
+          if (modal && modal.classList.contains('open') && event.target === modal) {
+            closeModal(id);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
